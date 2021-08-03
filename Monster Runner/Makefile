@@ -1,69 +1,28 @@
-########################################################################
-####################### Makefile Template ##############################
-########################################################################
+NAME     =     Monster_Runner
 
-# Compiler settings - Can be customized.
-CC = gcc
-CXXFLAGS = -std=c11 -Wall
-LDFLAGS = 
+SRC	=	source/main.c\ 
+		source/draw.c\
+    	source/init.c\
+        source/input.c
 
-# Makefile settings - Can be customized.
-APPNAME = myapp
-EXT = .c
-SRCDIR = src
-OBJDIR = obj
+OBJ	=	$(SRC:.c=.o)
 
-############## Do not change anything from here downwards! #############
-SRC = $(wildcard $(SRCDIR)/*$(EXT))
-OBJ = $(SRC:$(SRCDIR)/%$(EXT)=$(OBJDIR)/%.o)
-DEP = $(OBJ:$(OBJDIR)/%.o=%.d)
-# UNIX-based OS variables & settings
-RM = rm
-DELOBJ = $(OBJ)
-# Windows OS variables & settings
-DEL = del
-EXE = .exe
-WDELOBJ = $(SRC:$(SRCDIR)/%$(EXT)=$(OBJDIR)\\%.o)
+CFLAGS	+=	-I./include
+CFLAGS	+=	-Wall -Werror -Wextra
 
-########################################################################
-####################### Targets beginning here #########################
-########################################################################
+LIBS	+=	-lSDL2 -lSDL2_image
 
-all: $(APPNAME)
+all:	$(NAME)
 
-# Builds the app
-$(APPNAME): $(OBJ)
-	$(CC) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+$(NAME):	$(OBJ)
+	gcc $(OBJ) $(LIBS) -o $(NAME)
 
-# Creates the dependecy rules
-%.d: $(SRCDIR)/%$(EXT)
-	@$(CPP) $(CFLAGS) $< -MM -MT $(@:%.d=$(OBJDIR)/%.o) >$@
-
-# Includes all .h files
--include $(DEP)
-
-# Building rule for .o files and its .c/.cpp in combination with all .h
-$(OBJDIR)/%.o: $(SRCDIR)/%$(EXT)
-	$(CC) $(CXXFLAGS) -o $@ -c $<
-
-################### Cleaning rules for Unix-based OS ###################
-# Cleans complete project
-.PHONY: clean
 clean:
-	$(RM) $(DELOBJ) $(DEP) $(APPNAME)
+    rm -f $(OBJ)
 
-# Cleans only all files with the extension .d
-.PHONY: cleandep
-cleandep:
-	$(RM) $(DEP)
+fclean:	clean
+    rm -f $(NAME)
 
-#################### Cleaning rules for Windows OS #####################
-# Cleans complete project
-.PHONY: cleanw
-cleanw:
-	$(DEL) $(WDELOBJ) $(DEP) $(APPNAME)$(EXE)
+re:	fclean all
 
-# Cleans only all files with the extension .d
-.PHONY: cleandepw
-cleandepw:
-	$(DEL) $(DEP)
+.PHONY:	all obj clean fclean re
