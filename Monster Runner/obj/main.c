@@ -1,6 +1,9 @@
+#include <stdio.h>
 #include "window.h"
 
 int main()
 {
-    Win return 0;
+    Win *window = malloc(sizeof(Win));
+
+        return 0;
 }

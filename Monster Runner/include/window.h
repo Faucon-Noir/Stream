@@ -1,10 +1,10 @@
 #ifndef WINDOW
 #define WINDOW
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #define WINDOW_WIDTH 480
 #define WINDOW_HEIGHT 360
-#define WINDOW_NAME "DVC"
+#define WINDOW_NAME "Monster Runner"
 
 typedef struct
 {
@@ -12,4 +12,4 @@ typedef struct
     SDL_Window *window;
 } Win;
 
-#endif /*Window*/
+#endif /* !WINDOW */
